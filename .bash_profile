@@ -1,5 +1,26 @@
 # Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:$PATH";
+export PATH="$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH";
+
+[[ -z $DISPLAY ]] && export DISPLAY=":0.0"
+
+#export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
+#export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\] '
+#export CLICOLOR="xterm-color"
+
+export EDITOR="/usr/local/bin/subl"
+alias e=${EDITOR}
+
+# MacPorts Installer addition on 2012-10-12_at_11:11:05: adding an appropriate PATH variable for use with MacPorts.
+export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:$PATH
+# Finished adapting your PATH environment variable for use with MacPorts.
+
+#export WORKON_HOME=~/.virtualenvs
+#export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+#source /usr/local/bin/virtualenvwrapper.sh
+
+
+
+
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
@@ -8,6 +29,9 @@ for file in ~/.{path,bash_prompt,exports,aliases,functions,extra}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
+
+# Enable extended pattern matching
+shopt -s extglob
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob;
