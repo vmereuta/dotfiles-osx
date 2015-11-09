@@ -10,7 +10,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # change default login shell to bash4
 
-sudo dscl . change /users/$USER UserShell /bin/bash /usr/local/bin/bas
+sudo dscl . change /users/$USER UserShell /bin/bash /usr/local/bin/bash
 
 ###############################################################################
 # General UI/UX                                                               #
