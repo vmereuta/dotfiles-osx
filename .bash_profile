@@ -1,7 +1,28 @@
 # Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH";
+export PATH="$HOME/bin:$(/usr/local/bin/brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/sbin:$PATH";
 
-[[ -z $DISPLAY ]] && export DISPLAY=":0.0"
+user=*****USER
+password=****PASSWORD
+px="****PROXYADDR"
+# Lots of variations for git/bower/npm etc.
+export npm_config_proxy="http://$user:$password@$px"
+export http_proxy="http://$user:$password@$px"
+export HTTP_PROXY="http://$user:$password@$px"
+export https_proxy="http://$user:$password@$px"
+export HTTPS_PROXY="http://$user:$password@$px"
+
+export JAVA_OPTS="$JAVA_OPTS -Dhttp.proxyHost=euro-webproxy.drama.man.com -Dhttp.proxyPort=8080 -Dhttp.proxyUser=${USER} -Dhttp.proxyPassword=${password} -Dhttps.proxyHost=euro-webproxy.drama.man.com -Dhttps.proxyPort=8080 -Dhttps.proxyUser=${USER} -Dhttps.proxyPassword=${password}"
+
+
+export DOTS_DB=trd6
+export PY_BACKEND=agg
+export PYTHONDONTWRITEBYTECODE=true
+export MONGOOSE_CENTAUR_CENTAUR_DB=centaurd
+export MONGOOSE_STATARBPE_CENTAUR_DB=centaurd
+export MOSEKLM_LICENSE_FILE=/data/app/mosek/mosek.lic
+
+
+#[[ -z $DISPLAY ]] && export DISPLAY=":0.0"
 
 #export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
 #export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\] '
@@ -14,12 +35,9 @@ alias e=${EDITOR}
 export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:$PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
 
-#export WORKON_HOME=~/.virtualenvs
-#export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
-#source /usr/local/bin/virtualenvwrapper.sh
-
-
-
+export WORKON_HOME=~/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+source /usr/local/bin/virtualenvwrapper.sh
 
 
 # Load the shell dotfiles, and then some:

@@ -24,23 +24,33 @@ prompt_git() {
 
 			# Check for uncommitted changes in the index.
 			if ! $(git diff --quiet --ignore-submodules --cached); then
-				s+='+';
+				s+='⬆';
 			fi;
 
 			# Check for unstaged changes.
 			if ! $(git diff-files --quiet --ignore-submodules --); then
-				s+='!';
+				s+='⇧';
+			fi;
+
+			# Check we have upstream
+			if ! $(git rev-parse --abbrev-ref @{upstream} &>/dev/null); then
+				s+=' 💀';
+			else
+				# Check branch behind.
+				if ! $(git diff @{push} --quiet --ignore-submodules --); then
+					s+=' ♻';
+				fi;
 			fi;
 
 			# Check for untracked files.
 			if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-				s+='?';
+				s+=' 💩 ';
 			fi;
 
 			# Check for stashed files.
-			if $(git rev-parse --verify refs/stash &>/dev/null); then
-				s+='$';
-			fi;
+			#if $(git rev-parse --verify refs/stash &>/dev/null); then
+			#	s+='$';
+			#fi;
 
 		fi;
 
@@ -51,9 +61,12 @@ prompt_git() {
 			git rev-parse --short HEAD 2> /dev/null || \
 			echo '(unknown)')";
 
-		[ -n "${s}" ] && s=" [${s}]";
+		if [ -z "${s}" ]; then
+			s+="✓"
+		fi
+		#[ -n "${s}" ] && s=" ${s}";
 
-		echo -e "${1}${branchName}${blue}${s}";
+		echo -e " ${cyan}${s} ${violet}${branchName}";
 	else
 		return;
 	fi;
@@ -93,14 +106,14 @@ fi;
 if [[ "${USER}" == "root" ]]; then
 	userStyle="${red}";
 else
-	userStyle="${orange}";
+	userStyle="${violet}";
 fi;
 
 # Highlight the hostname when connected via SSH.
 if [[ "${SSH_TTY}" ]]; then
 	hostStyle="${bold}${red}";
 else
-	hostStyle="${yellow}";
+	hostStyle="${violet}";
 fi;
 
 # Set the terminal title to the current working directory.
@@ -111,10 +124,10 @@ PS1+="\[${userStyle}\]\u"; # username
 PS1+="\[${white}\]";
 PS1+="\[${hostStyle}\]@\h"; # host
 PS1+="\[${violet}\]⎸";
-PS1+="\[${green}\]\w"; # working directory
-PS1+="\$(prompt_git \"${white} ↑↓ ${violet}\")"; # Git repository details
+PS1+="\[${blue}\]\w"; # working directory
+PS1+="\$(prompt_git)"; # Git repository details
 PS1+="\n";
-PS1+="\[${white}\]\$ \[${reset}\]"; # `$` (and reset color)
+PS1+="\[${blue}\]\$ \[${reset}\]"; # `$` (and reset color)
 export PS1;
 
 PS2="\[${yellow}\]→ \[${reset}\]";
