@@ -1,36 +1,6 @@
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$(/usr/local/bin/brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/sbin:$PATH";
 
-user=*****USER
-password=****PASSWORD
-px="****PROXYADDR"
-# Lots of variations for git/bower/npm etc.
-export npm_config_proxy="http://$user:$password@$px"
-export http_proxy="http://$user:$password@$px"
-export HTTP_PROXY="http://$user:$password@$px"
-export https_proxy="http://$user:$password@$px"
-export HTTPS_PROXY="http://$user:$password@$px"
-
-export JAVA_OPTS="$JAVA_OPTS -Dhttp.proxyHost=euro-webproxy.drama.man.com -Dhttp.proxyPort=8080 -Dhttp.proxyUser=${USER} -Dhttp.proxyPassword=${password} -Dhttps.proxyHost=euro-webproxy.drama.man.com -Dhttps.proxyPort=8080 -Dhttps.proxyUser=${USER} -Dhttps.proxyPassword=${password}"
-
-
-export DOTS_DB=trd6
-export PY_BACKEND=agg
-export PYTHONDONTWRITEBYTECODE=true
-export MONGOOSE_CENTAUR_CENTAUR_DB=centaurd
-export MONGOOSE_STATARBPE_CENTAUR_DB=centaurd
-export MOSEKLM_LICENSE_FILE=/data/app/mosek/mosek.lic
-
-
-#[[ -z $DISPLAY ]] && export DISPLAY=":0.0"
-
-#export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
-#export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\] '
-#export CLICOLOR="xterm-color"
-
-export EDITOR="/usr/local/bin/subl"
-alias e=${EDITOR}
-
 # MacPorts Installer addition on 2012-10-12_at_11:11:05: adding an appropriate PATH variable for use with MacPorts.
 export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:$PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
@@ -39,11 +9,10 @@ export WORKON_HOME=~/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
 source /usr/local/bin/virtualenvwrapper.sh
 
-
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{path,bash_prompt,exports,aliases,functions,extra}; do
+for file in ~/.{path,bash_prompt,exports,aliases,functions,extra,bash_ahl}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -88,3 +57,5 @@ complete -W "NSGlobalDomain" defaults;
 
 # Add `killall` tab completion for common apps
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

@@ -55,7 +55,7 @@
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
 
 	# View the current working tree status using the short format
-	s = status -s
+	s = status -sb
 
 	# Show the diff between the latest commit and the current state
 	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
@@ -123,7 +123,7 @@
 			git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
 		fi \
 	}; f"
-  	
+
 [color]
 
 	# Use colors in Git commands that are capable of colored output when
@@ -185,3 +185,12 @@
 [url "git://gist.github.com/"]
 
 	insteadOf = "gist:"
+
+[url "http://ahlgit/"]
+
+	insteadOf = "http://www.ahlgit.com"
+
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	required = true
+	clean = git-lfs clean -- %f
