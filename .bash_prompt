@@ -9,69 +9,6 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
 	export TERM='xterm-256color';
 fi;
 
-prompt_git() {
-	local s='';
-	local branchName='';
-
-	# Check if the current directory is in a Git repository.
-	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
-
-		# check if the current directory is in .git before running git checks
-		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
-
-			# Ensure the index is up to date.
-			git update-index --really-refresh -q &>/dev/null;
-
-			# Check for uncommitted changes in the index.
-			if ! $(git diff --quiet --ignore-submodules --cached); then
-				s+='⬆';
-			fi;
-
-			# Check for unstaged changes.
-			if ! $(git diff-files --quiet --ignore-submodules --); then
-				s+='⇧';
-			fi;
-
-			# Check we have upstream
-			if ! $(git rev-parse --abbrev-ref @{upstream} &>/dev/null); then
-				s+=' 💀';
-			else
-				# Check branch behind.
-				if ! $(git diff @{push} --quiet --ignore-submodules --); then
-					s+=' ♻';
-				fi;
-			fi;
-
-			# Check for untracked files.
-			if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-				s+=' 💩 ';
-			fi;
-
-			# Check for stashed files.
-			#if $(git rev-parse --verify refs/stash &>/dev/null); then
-			#	s+='$';
-			#fi;
-
-		fi;
-
-		# Get the short symbolic ref.
-		# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
-		# Otherwise, just give up.
-		branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
-			git rev-parse --short HEAD 2> /dev/null || \
-			echo '(unknown)')";
-
-		if [ -z "${s}" ]; then
-			s+="✓"
-		fi
-		#[ -n "${s}" ] && s=" ${s}";
-
-		echo -e " ${cyan}${s} ${violet}${branchName}";
-	else
-		return;
-	fi;
-}
-
 if tput setaf 1 &> /dev/null; then
 	tput sgr0; # reset colors
 	bold=$(tput bold);
@@ -118,17 +55,23 @@ fi;
 
 # Set the terminal title to the current working directory.
 PS1="\[\033]0;\w\007\]";
-PS1+="\[${bold}\]\n"; # newline
+#PS1+="\[${bold}\]\n"; # newline
 PS1+="\[${violet}\]⎹";
 PS1+="\[${userStyle}\]\u"; # username
 PS1+="\[${white}\]";
 PS1+="\[${hostStyle}\]@\h"; # host
 PS1+="\[${violet}\]⎸";
-PS1+="\[${blue}\]\w"; # working directory
-PS1+="\$(prompt_git)"; # Git repository details
+PS1+="\[${bold}${blue}\]\w"; # working directory
 PS1+="\n";
 PS1+="\[${blue}\]\$ \[${reset}\]"; # `$` (and reset color)
 export PS1;
 
 PS2="\[${yellow}\]→ \[${reset}\]";
 export PS2;
+
+if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+  __GIT_PROMPT_DIR=$(brew --prefix)/opt/bash-git-prompt/share
+  GIT_PROMPT_ONLY_IN_REPO=1
+  GIT_PROMPT_THEME=Solarized
+  source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
+fi

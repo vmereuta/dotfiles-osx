@@ -1,10 +1,6 @@
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$(/usr/local/bin/brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/sbin:$PATH";
 
-# MacPorts Installer addition on 2012-10-12_at_11:11:05: adding an appropriate PATH variable for use with MacPorts.
-export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:$PATH
-# Finished adapting your PATH environment variable for use with MacPorts.
-
 export WORKON_HOME=~/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
 source /usr/local/bin/virtualenvwrapper.sh

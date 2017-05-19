@@ -47,18 +47,18 @@ syntax on
 " Highlight current line
 set cursorline
 " Make tabs as wide as two spaces
-set tabstop=2
+set tabstop=4
 " Show “invisible” characters
 "set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
-set list
+"set list
 " Highlight searches
 set hlsearch
 " Ignore case of searches
-set ignorecase
+"set ignorecase
 " Highlight dynamically as pattern is typed
 set incsearch
 " Always show status line
-set laststatus=2
+"set laststatus=2
 " Enable mouse in all modes
 set mouse=a
 " Disable error bells
