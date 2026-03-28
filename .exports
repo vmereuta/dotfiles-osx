@@ -1,27 +1,95 @@
-export EDITOR="/usr/local/bin/atom"
+# ──────────────────────────────────────────────────────────────
+# Editors
+# ──────────────────────────────────────────────────────────────
 
-# Enable persistent REPL history for `node`.
-export NODE_REPL_HISTORY=~/.node_history;
-# Allow 32³ entries; the default is 1000.
-export NODE_REPL_HISTORY_SIZE='32768';
-# Use sloppy mode by default, matching web browsers.
-export NODE_REPL_MODE='sloppy';
+export EDITOR="nvim"
+export VISUAL="code --wait"
+export SUDO_EDITOR="nvim"
 
-# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
-export PYTHONIOENCODING='UTF-8';
+# ──────────────────────────────────────────────────────────────
+# Language & Locale
+# ──────────────────────────────────────────────────────────────
 
-# Increase Bash history size. Allow 32³ entries; the default is 500.
-export HISTSIZE='32768';
-export HISTFILESIZE="${HISTSIZE}";
-# Omit duplicates and commands that begin with a space from history.
-export HISTCONTROL='ignoreboth';
+export LANG='en_GB.UTF-8'
+export LC_ALL='en_GB.UTF-8'
 
-# Prefer US English and use UTF-8.
-export LANG='en_GB.UTF-8';
-export LC_ALL='en_GB.UTF-8';
+# ──────────────────────────────────────────────────────────────
+# History (shared with .zshrc but also used by other tools)
+# ──────────────────────────────────────────────────────────────
 
-# Highlight section titles in manual pages.
-export LESS_TERMCAP_md="${yellow}";
+export HISTSIZE=50000
+export SAVEHIST=50000
 
-# Don’t clear the screen after quitting a manual page.
-export MANPAGER='less -X';
+# ──────────────────────────────────────────────────────────────
+# Pager & Man
+# ──────────────────────────────────────────────────────────────
+
+# Use bat as man pager if available
+if command -v bat &>/dev/null; then
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    export MANROFFOPT="-c"
+fi
+
+export PAGER="less"
+export LESS="-R --mouse --wheel-lines=3"
+
+# ──────────────────────────────────────────────────────────────
+# Python / uv
+# ──────────────────────────────────────────────────────────────
+
+export PYTHONIOENCODING='UTF-8'
+export PYTHONDONTWRITEBYTECODE=1
+export UV_LINK_MODE=copy
+
+# ──────────────────────────────────────────────────────────────
+# Node
+# ──────────────────────────────────────────────────────────────
+
+export NODE_REPL_HISTORY=~/.node_history
+export NODE_REPL_HISTORY_SIZE='32768'
+export NODE_REPL_MODE='sloppy'
+
+# ──────────────────────────────────────────────────────────────
+# fzf
+# ──────────────────────────────────────────────────────────────
+
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+
+# Claude-themed fzf colors (warm terracotta palette)
+export FZF_DEFAULT_OPTS="
+  --height=60%
+  --layout=reverse
+  --border=rounded
+  --prompt='  '
+  --pointer='▶'
+  --marker='✓'
+  --color=bg+:#2d2620,bg:#1a1714,spinner:#D97757,hl:#D97757
+  --color=fg:#c4b5a0,header:#D97757,info:#a08060,pointer:#D97757
+  --color=marker:#D97757,fg+:#e8ddd0,prompt:#D97757,hl+:#e8a070
+  --bind='ctrl-/:toggle-preview'
+  --preview-window='right:60%:wrap'
+"
+
+# fzf preview commands
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-range=:500 {} 2>/dev/null || eza --icons --color=always {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --icons --color=always --tree --level=2 {}'"
+
+# ──────────────────────────────────────────────────────────────
+# Obsidian
+# ──────────────────────────────────────────────────────────────
+
+# Set your vault path (adjust to your actual vault location)
+export OBSIDIAN_VAULT="${HOME}/Documents/Obsidian"
+
+# ──────────────────────────────────────────────────────────────
+# Misc
+# ──────────────────────────────────────────────────────────────
+
+# Homebrew
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+# GPG
+export GPG_TTY=$(tty)

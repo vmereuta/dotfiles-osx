@@ -1,9 +1,0 @@
-calibre
-drobo-dashboard
-gnucash
-goldencheetah
-google-earth
-iterm2
-sublime-text
-vlc
-xquartz

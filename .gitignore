@@ -1,17 +1,52 @@
-# Compiled Python files
-*.pyc
-
-#IDE
-.idea
-
-# Folder view configuration files
+# macOS
 .DS_Store
-Desktop.ini
-
-# Thumbnail cache files
+.AppleDouble
+.LSOverride
 ._*
-Thumbs.db
-
-# Files that might appear on external disks
 .Spotlight-V100
 .Trashes
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Python
+*.pyc
+*.pyo
+__pycache__
+*.egg-info
+.venv
+.env
+
+# Node
+node_modules
+
+# IDE
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Secrets (never commit these)
+.env.local
+.env.*.local
+credentials.json
+*.pem
+*.key

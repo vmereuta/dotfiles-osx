@@ -2,197 +2,175 @@
 	email = vmereuta@ahl.com
 	name = Vlad Mereuță
 
+[init]
+	defaultBranch = main
+
 [branch]
 	autosetuprebase = always
+	sort = -committerdate
 
 [apply]
-	# Detect whitespace errors when applying a patch
 	whitespace = fix
 
 [core]
-
-	# Use custom `.gitignore` and `.gitattributes`
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
-
-	# Treat spaces before tabs and all kinds of trailing whitespace as an error
-	# [default] trailing-space: looks for spaces at the end of a line
-	# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
 	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
-
-	# Make `git rebase` safer on OS X
-	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
 	trustctime = false
-
-	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
-	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
 	precomposeunicode = false
 	autocrlf = input
-	editor = vim
+	editor = nvim
+	pager = delta
+	fsmonitor = true
+	untrackedcache = true
 
-[rerere]
-  	enabled = true
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	light = false
+	side-by-side = true
+	line-numbers = true
+	syntax-theme = "ansi"
+	file-style = "bold yellow ul"
+	file-decoration-style = "none"
+	hunk-header-decoration-style = "cyan box ul"
 
 [merge]
-	# Include summaries of merged commits in newly created merge commit messages
 	log = true
+	conflictstyle = zdiff3
+	tool = vscode
+
+[mergetool "vscode"]
+	cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+
+[diff]
+	renames = copies
+	algorithm = histogram
+	colorMoved = default
+	tool = vscode
+
+[difftool "vscode"]
+	cmd = code --wait --diff $LOCAL $REMOTE
+
+[diff "bin"]
+	textconv = hexdump -v -C
+
+[rerere]
+	enabled = true
 
 [push]
-
-	# Use the Git 1.x.x default to avoid errors on machines with old Git
-	# installations. To use `simple` instead, add this to your `~/.extra` file:
-	# `git config --global push.default simple`. See http://git.io/mMah-w.
-	default = simple
-	# Make `git push` push relevant annotated tags when pushing branches out.
+	default = current
 	followTags = true
+	autoSetupRemote = true
+
+[pull]
+	rebase = true
+
+[fetch]
+	prune = true
+	prunetags = true
 
 [rebase]
 	autoSquash = true
 	autoStash = true
+	updateRefs = true
 
 [alias]
-	nuke = !git reset --hard && git clean -f -d
-	hist = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)    - %an%C(reset)%C(bold yellow)%d%C(reset)'
-	# View abbreviated SHA, description, and history graph of the latest 20 commits
-	l = log --pretty=oneline -n 20 --graph --abbrev-commit
-
-	# View the current working tree status using the short format
+	# Status & info
 	s = status -sb
-
-	# Show the diff between the latest commit and the current state
+	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+	hist = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)    - %an%C(reset)%C(bold yellow)%d%C(reset)'
 	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
-
-	# `git di $number` shows the diff between the state `$number` revisions ago and the current state
+	ds = diff --staged
 	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
 
-	# Pull in remote changes for the current repository and all its submodules
-	p = !"git pull; git submodule foreach git pull origin master"
-
-	# Clone a repository including all submodules
-	c = clone --recursive
-
-	# Commit all changes
-	ca = !git add -A && git commit -av
-
-	# Switch to a branch, creating it if necessary
+	# Branch operations
 	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
-
-	# Show verbose output about tags, branches or remotes
+	main = !git checkout main 2>/dev/null || git checkout master
+	branches = branch -a --sort=-committerdate
 	tags = tag -l
-	branches = branch -a
 	remotes = remote -v
 
-	# Amend the currently staged files to the latest commit
+	# Commit
+	ca = !git add -A && git commit -av
 	amend = commit --amend --reuse-message=HEAD
-
-	# Credit an author on the latest commit
 	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+	wip = !git add -A && git commit -m "wip: work in progress"
+	undo = reset --soft HEAD~1
 
-	# Interactive rebase with the given number of latest commits
-	reb = "!r() { git rebase -i HEAD~$1; }; r"
-
-	# Remove the old tag with this name and tag the latest commit with it.
-	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
-
-	# Find branches containing commit
+	# Search
 	fb = "!f() { git branch -a --contains $1; }; f"
-
-	# Find tags containing commit
 	ft = "!f() { git describe --always --contains $1; }; f"
-
-	# Find commits by source code
 	fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
-
-	# Find commits by commit message
 	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
 
-	# Remove branches that have already been merged with master
-	# a.k.a. ‘delete merged’
+	# Cleanup
 	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
-	clean-merged = "!f() { git branch --merged | grep -v "\\*" | grep -v master | grep -v dev | xargs -n 1 --verbose git branch -d ; } ; f"
+	clean-merged = "!f() { git branch --merged | grep -v '\\*' | grep -v main | grep -v master | grep -v dev | xargs -n 1 git branch -d; }; f"
+	nuke = !git reset --hard && git clean -f -d
 
-	# List contributors with number of commits
+	# Submodules
+	p = !"git pull; git submodule foreach git pull origin main"
+	c = clone --recursive
+
+	# Contributors
 	contributors = shortlog --summary --numbered
+	count = !git shortlog -sn --all
 
-	# Merge GitHub pull request on top of the `master` branch
-	mpr = "!f() { \
-		if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
-			git fetch origin refs/pull/$1/head:pr/$1 && \
-			git rebase master pr/$1 && \
-			git checkout master && \
-			git merge pr/$1 && \
-			git branch -D pr/$1 && \
-			git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
-		fi \
-	}; f"
+	# Stash
+	sl = stash list
+	sp = stash pop
+	ss = stash push -m
 
 [color]
-
-	# Use colors in Git commands that are capable of colored output when
-	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
 	ui = auto
 	interactive = auto
 
 [color "branch"]
-
 	current = yellow reverse
 	local = yellow
 	remote = green
 
 [color "diff"]
-
 	meta = yellow bold
-	frag = magenta bold # line info
-	old = red # deletions
-	new = green # additions
+	frag = magenta bold
+	old = red
+	new = green
 
 [color "status"]
-
 	added = yellow
 	changed = green
 	untracked = cyan
 
-[diff]
-
-	# Detect copies as well as renames
-	renames = copies
-
-[diff "bin"]
-	# Use `hexdump` to diff binary files
-	textconv = hexdump -v -C
-
 [help]
-
-	# Automatically correct and execute mistyped commands
-	autocorrect = 1
-
-# URL shorthands
+	autocorrect = prompt
 
 [url "git@github.com:"]
-
 	insteadOf = "gh:"
 	pushInsteadOf = "github:"
 	pushInsteadOf = "git://github.com/"
 
 [url "git://github.com/"]
-
 	insteadOf = "github:"
 
 [url "git@gist.github.com:"]
-
 	insteadOf = "gst:"
 	pushInsteadOf = "gist:"
 	pushInsteadOf = "git://gist.github.com/"
 
 [url "git://gist.github.com/"]
-
 	insteadOf = "gist:"
-
-[url "http://ahlgit/"]
-
-	insteadOf = "http://www.ahlgit.com"
 
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	required = true
 	clean = git-lfs clean -- %f
+	process = git-lfs filter-process
+
+[column]
+	ui = auto
+
+[tag]
+	sort = version:refname
