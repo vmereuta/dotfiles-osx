@@ -38,3 +38,6 @@ export PATH="${HOME}/.local/bin:${PATH}"
 # ──────────────────────────────────────────────────────────────
 
 [ -r "${HOME}/.path" ] && source "${HOME}/.path"
+
+# Added by Obsidian
+export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
