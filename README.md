@@ -8,7 +8,7 @@ Originally forked from [Mathias Bynens' dotfiles](https://github.com/mathiasbyne
 
 | Category | Tools |
 |----------|-------|
-| **Shell** | Zsh with [zinit](https://github.com/zdharber/zinit) + [Powerlevel10k](https://github.com/romkatv/powerlevel10k) |
+| **Shell** | Zsh with [zinit](https://github.com/zdharma-continuum/zinit) + [Powerlevel10k](https://github.com/romkatv/powerlevel10k) |
 | **Terminal** | iTerm2 + tmux (Claude-themed, TPM plugins, session persistence) |
 | **Editors** | VSCode (primary) + Neovim (terminal, with LSP/Telescope/Treesitter) |
 | **Git** | [delta](https://github.com/dandavison/delta) diffs, [lazygit](https://github.com/jesseduffield/lazygit) TUI, modern config |

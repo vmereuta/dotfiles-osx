@@ -80,8 +80,8 @@ export FZF_ALT_C_OPTS="--preview 'eza --icons --color=always --tree --level=2 {}
 # Obsidian
 # ──────────────────────────────────────────────────────────────
 
-# Set your vault path (adjust to your actual vault location)
-export OBSIDIAN_VAULT="${HOME}/Documents/Obsidian"
+# Set your vault path
+export OBSIDIAN_VAULT="${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/arini"
 
 # ──────────────────────────────────────────────────────────────
 # Misc

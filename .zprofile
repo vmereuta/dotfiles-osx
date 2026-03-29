@@ -18,7 +18,7 @@ fi
 
 # GNU coreutils (prefer over macOS builtins)
 if command -v brew &>/dev/null; then
-    local brew_prefix="$(brew --prefix)"
+    brew_prefix="$(brew --prefix)"
     for gnubin in "${brew_prefix}/opt/"*/libexec/gnubin; do
         export PATH="${gnubin}:${PATH}"
     done

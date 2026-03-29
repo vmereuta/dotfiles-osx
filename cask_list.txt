@@ -1,0 +1,12 @@
+1password
+alt-tab
+font-fira-code-nerd-font
+font-jetbrains-mono-nerd-font
+font-meslo-lg-nerd-font
+iterm2
+obsidian
+raycast
+rectangle
+the-unarchiver
+visual-studio-code
+vlc
