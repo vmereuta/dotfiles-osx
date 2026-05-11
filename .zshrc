@@ -131,6 +131,7 @@ fi
 
 # zoxide (smarter cd)
 if command -v zoxide &>/dev/null; then
+    export _ZO_DOCTOR=0
     eval "$(zoxide init --cmd cd zsh)"
 fi
 
@@ -147,10 +148,6 @@ fi
 # iTerm2 shell integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-# Claude Code shell integration
-if command -v claude &>/dev/null; then
-    eval "$(claude shell-completion zsh 2>/dev/null)" || true
-fi
 
 # ──────────────────────────────────────────────────────────────
 # Powerlevel10k config

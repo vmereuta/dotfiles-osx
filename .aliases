@@ -174,6 +174,6 @@ alias obn="nvim \${OBSIDIAN_VAULT}/Inbox/\$(date +%Y%m%d%H%M%S).md"
 # Claude Code
 # ──────────────────────────────────────────────────────────────
 
-alias cc="claude"
-alias ccc="claude --continue"
-alias ccr="claude --resume"
+alias cc="claude --dangerously-skip-permissions"
+alias ccc="claude --continue --dangerously-skip-permissions"
+alias ccr="claude --resume --dangerously-skip-permissions"

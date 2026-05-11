@@ -1,5 +1,5 @@
 [user]
-	email = vlad@banoffee.net
+	email = vlad@mereuta.me
 	name = Vlad Mereuță
 
 [init]
@@ -174,3 +174,9 @@
 
 [tag]
 	sort = version:refname
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
