@@ -1,0 +1,102 @@
+# ──────────────────────────────────────────────────────────────
+# Ghostty config — mirrors iTerm2 (MesloLGS NF + Solarized Dark)
+# with a few macOS-native niceties on top.
+# Docs:  https://ghostty.org/docs/config/reference
+# Reload in-app:  cmd+shift+,
+# Show full effective config:  ghostty +show-config
+# NB: Ghostty does NOT support trailing comments on the same line
+# as a setting — comments must be on their own line.
+# ──────────────────────────────────────────────────────────────
+
+# ── Font (matches your iTerm2 + Powerlevel10k requirement) ────
+font-family       = MesloLGS NF
+font-family-bold  = MesloLGS NF
+font-family-italic = MesloLGS NF
+font-size         = 13
+font-thicken      = true
+adjust-cell-height = 5%
+
+# ── Theme ─────────────────────────────────────────────────────
+# To swap, try:  Solarized Dark Patched (mirrors iTerm2),
+# tokyonight, GruvboxDarkHard, rose-pine, Dracula.
+# List all:  ghostty +list-themes
+theme = Catppuccin Mocha
+
+# ── Window appearance (the "pretty" bits) ─────────────────────
+# Subtle translucency. Your iTerm had ~0.04 transparency; this is
+# roughly equivalent. Set to 1.0 for solid.
+background-opacity      = 0.92
+# Native macOS vibrancy blur behind the window.
+background-blur         = 20
+window-padding-x        = 12
+window-padding-y        = 10
+window-padding-balance  = true
+window-decoration       = true
+# Native tab bar (alternatives: native, transparent, hidden).
+macos-titlebar-style    = tabs
+macos-titlebar-proxy-icon = hidden
+unfocused-split-opacity = 0.85
+cursor-style            = block
+cursor-style-blink      = false
+mouse-hide-while-typing = true
+
+# ── macOS / shell ergonomics ──────────────────────────────────
+# Make Option send Meta so tmux/zsh M-<key> bindings work.
+# Your .tmux.conf uses M-Left/Right/Up/Down for pane nav.
+macos-option-as-alt     = true
+copy-on-select          = clipboard
+clipboard-read          = allow
+clipboard-write         = allow
+clipboard-paste-protection = true
+confirm-close-surface   = false
+quit-after-last-window-closed = false
+# Restore windows/tabs across launches.
+window-save-state       = always
+
+# Shell integration: auto-detects zsh/bash/fish and adds OSC 7
+# cwd reporting (Claude Code uses this), cmd-click on URLs,
+# and jump-between-prompts.
+shell-integration          = detect
+shell-integration-features = cursor,sudo,title
+
+# ── Scrollback ────────────────────────────────────────────────
+scrollback-limit = 10000000
+
+# ── tmux / SSH compatibility ──────────────────────────────────
+# Ghostty's native TERM (xterm-ghostty) isn't installed on remote
+# hosts. Forcing xterm-256color avoids "unknown terminal" over
+# SSH and works with your existing tmux terminal-overrides line.
+term = xterm-256color
+
+# ── Quick Terminal (global drop-down, à la iTerm Hotkey Window) ─
+# Bind a global hotkey to slide a terminal in from any app.
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+quick-terminal-position    = top
+quick-terminal-screen      = main
+quick-terminal-animation-duration = 0.15
+
+# ── Keybinds you'll actually use ──────────────────────────────
+# Splits (cmd+d / cmd+shift+d, à la iTerm).
+keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
+keybind = cmd+w=close_surface
+keybind = cmd+shift+enter=toggle_split_zoom
+
+# Pane navigation.
+keybind = cmd+alt+left=goto_split:left
+keybind = cmd+alt+right=goto_split:right
+keybind = cmd+alt+up=goto_split:up
+keybind = cmd+alt+down=goto_split:down
+
+# Tabs.
+keybind = cmd+t=new_tab
+keybind = cmd+shift+left=previous_tab
+keybind = cmd+shift+right=next_tab
+
+# Font size.
+keybind = cmd+plus=increase_font_size:1
+keybind = cmd+minus=decrease_font_size:1
+keybind = cmd+0=reset_font_size
+
+# Reload config without restart.
+keybind = cmd+shift+comma=reload_config

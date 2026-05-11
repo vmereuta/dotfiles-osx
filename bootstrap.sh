@@ -37,6 +37,7 @@ SYMLINK_DIRS=(
 # Nested configs: source path (relative to dotfiles) -> target path (relative to ~)
 NESTED_LINKS=(
     ".config/nvim::.config/nvim"
+    ".config/ghostty::.config/ghostty"
     ".config/Code/User/settings.json::.config/Code/User/settings.json"
     ".claude/settings.local.json::.claude/settings.local.json"
 )
